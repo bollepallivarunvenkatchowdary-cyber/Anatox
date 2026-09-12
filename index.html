@@ -1,346 +1,2002 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AnatoX - In-App 3D Workspace</title>
-    <!-- Google Fonts for Modern Typography -->
-    <link rel="preconnect" href="https://googleapis.com">
-    <link rel="preconnect" href="https://gstatic.com" crossorigin>
-    <link href="https://googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <style>
-        /* Modern CSS Variables & Reset */
-        :root {
-            --bg-main: #0B0F19;
-            --bg-surface: #131B2E;
-            --bg-surface-hover: #1E2942;
-            --text-primary: #F8FAFC;
-            --text-secondary: #94A3B8;
-            --brand-primary: #38BDF8;
-            --brand-gradient: linear-gradient(135deg, #38BDF8 0%, #818CF8 100%);
-            --accent-success: #34D399;
-            --accent-warning: #F59E0B;
-            --border-color: rgba(255, 255, 255, 0.08);
-            --radius-lg: 16px;
-            --radius-md: 12px;
-            --radius-sm: 8px;
-            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+
+```
+<title>AnatoX — Learn How Things Work</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+    :root {
+        --bg: #07101d;
+        --bg-soft: #0c1626;
+        --surface: rgba(255,255,255,0.045);
+        --surface-2: rgba(255,255,255,0.065);
+
+        --text: #f8fafc;
+        --muted: #9fb0c3;
+
+        --blue: #38bdf8;
+        --purple: #8b5cf6;
+        --green: #34d399;
+        --yellow: #facc15;
+
+        --border: rgba(255,255,255,0.08);
+
+        --gradient:
+            linear-gradient(
+                135deg,
+                #38bdf8 0%,
+                #6366f1 50%,
+                #a855f7 100%
+            );
+
+        --max-width: 1120px;
+        --radius-xl: 24px;
+        --radius-lg: 18px;
+        --radius-md: 12px;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        font-family: "Inter", sans-serif;
+        color: var(--text);
+        background:
+            radial-gradient(
+                circle at top left,
+                rgba(56,189,248,0.14),
+                transparent 28%
+            ),
+            radial-gradient(
+                circle at top right,
+                rgba(139,92,246,0.12),
+                transparent 30%
+            ),
+            var(--bg);
+
+        line-height: 1.7;
+    }
+
+    a {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    .container {
+        width: min(92%, var(--max-width));
+        margin: auto;
+    }
+
+    /* NAV */
+
+    nav {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+
+        backdrop-filter: blur(18px);
+
+        background:
+            rgba(7,16,29,0.75);
+
+        border-bottom:
+            1px solid var(--border);
+    }
+
+    .nav-inner {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        min-height: 70px;
+    }
+
+    .brand {
+        font-size: 1.35rem;
+        font-weight: 800;
+
+        background: var(--gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .nav-links {
+        display: flex;
+        gap: 24px;
+        list-style: none;
+
+        color: var(--muted);
+        font-size: 0.9rem;
+        font-weight: 600;
+    }
+
+    .nav-links a:hover {
+        color: var(--text);
+    }
+
+    /* HERO */
+
+    .hero {
+        min-height: 88vh;
+
+        display: flex;
+        align-items: center;
+
+        padding: 90px 0;
+    }
+
+    .hero-content {
+        text-align: center;
+        max-width: 850px;
+        margin: auto;
+    }
+
+    .badge {
+        display: inline-block;
+
+        padding: 7px 14px;
+
+        border-radius: 999px;
+
+        background:
+            rgba(56,189,248,0.1);
+
+        border:
+            1px solid rgba(56,189,248,0.25);
+
+        color: #bae6fd;
+
+        font-size: 0.8rem;
+        font-weight: 700;
+
+        letter-spacing: 0.7px;
+
+        margin-bottom: 20px;
+    }
+
+    .hero h1 {
+        font-size:
+            clamp(2.8rem, 7vw, 5.5rem);
+
+        line-height: 1;
+
+        letter-spacing: -3px;
+
+        margin-bottom: 24px;
+    }
+
+    .gradient-text {
+        background: var(--gradient);
+
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+        max-width: 720px;
+        margin: auto;
+
+        color: var(--muted);
+
+        font-size: 1.1rem;
+
+        margin-bottom: 32px;
+    }
+
+    .hero-buttons {
+        display: flex;
+
+        justify-content: center;
+
+        gap: 14px;
+
+        flex-wrap: wrap;
+    }
+
+    .btn {
+        padding: 13px 22px;
+
+        border-radius: 12px;
+
+        font-weight: 700;
+
+        transition: 0.25s;
+    }
+
+    .btn-primary {
+        background: var(--gradient);
+        color: white;
+    }
+
+    .btn-secondary {
+        border: 1px solid var(--border);
+
+        background:
+            rgba(255,255,255,0.04);
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+    }
+
+    /* GLOBAL SECTION */
+
+    section {
+        padding: 80px 0;
+    }
+
+    .section-heading {
+        max-width: 700px;
+
+        margin-bottom: 40px;
+    }
+
+    .section-label {
+        color: var(--blue);
+
+        font-size: 0.8rem;
+        font-weight: 700;
+
+        text-transform: uppercase;
+        letter-spacing: 1px;
+
+        margin-bottom: 10px;
+    }
+
+    h2 {
+        font-size:
+            clamp(2rem, 4vw, 3rem);
+
+        line-height: 1.15;
+
+        letter-spacing: -1px;
+
+        margin-bottom: 14px;
+    }
+
+    .section-heading p {
+        color: var(--muted);
+    }
+
+    /* CARDS */
+
+    .grid {
+        display: grid;
+
+        grid-template-columns:
+            repeat(
+                auto-fit,
+                minmax(230px, 1fr)
+            );
+
+        gap: 18px;
+    }
+
+    .card {
+        background:
+            linear-gradient(
+                180deg,
+                rgba(255,255,255,0.055),
+                rgba(255,255,255,0.025)
+            );
+
+        border:
+            1px solid var(--border);
+
+        border-radius:
+            var(--radius-lg);
+
+        padding: 25px;
+
+        transition:
+            transform .25s,
+            border-color .25s,
+            background .25s;
+    }
+
+    .card:hover {
+        transform:
+            translateY(-5px);
+
+        border-color:
+            rgba(56,189,248,0.28);
+
+        background:
+            rgba(255,255,255,0.065);
+    }
+
+    .card-icon {
+        font-size: 2rem;
+        margin-bottom: 14px;
+    }
+
+    .card h3 {
+        font-size: 1.05rem;
+        margin-bottom: 8px;
+    }
+
+    .card p {
+        color: var(--muted);
+        font-size: 0.92rem;
+    }
+
+    /* WORKFLOW */
+
+    .workflow {
+        display: grid;
+        gap: 16px;
+    }
+
+    .step {
+        display: grid;
+
+        grid-template-columns:
+            55px 1fr;
+
+        gap: 18px;
+
+        align-items: start;
+
+        background:
+            var(--surface);
+
+        border:
+            1px solid var(--border);
+
+        border-radius:
+            var(--radius-lg);
+
+        padding: 22px;
+    }
+
+    .step-num {
+        width: 45px;
+        height: 45px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 50%;
+
+        background: var(--gradient);
+
+        font-weight: 800;
+    }
+
+    .step h3 {
+        margin-bottom: 6px;
+    }
+
+    .step p {
+        color: var(--muted);
+        font-size: 0.92rem;
+    }
+
+    /* FEATURE PANEL */
+
+    .panel {
+        background:
+            linear-gradient(
+                135deg,
+                rgba(56,189,248,0.07),
+                rgba(139,92,246,0.07)
+            );
+
+        border:
+            1px solid var(--border);
+
+        border-radius:
+            var(--radius-xl);
+
+        padding: 30px;
+    }
+
+    /* TAGS */
+
+    .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+
+        margin-top: 20px;
+    }
+
+    .tag {
+        padding: 8px 13px;
+
+        border-radius: 999px;
+
+        background:
+            rgba(255,255,255,0.05);
+
+        border:
+            1px solid var(--border);
+
+        color: #dbeafe;
+
+        font-size: 0.82rem;
+        font-weight: 600;
+    }
+
+    /* CODE */
+
+    pre {
+        margin-top: 20px;
+
+        background: #050912;
+
+        border:
+            1px solid var(--border);
+
+        border-radius:
+            var(--radius-lg);
+
+        padding: 24px;
+
+        overflow-x: auto;
+    }
+
+    code {
+        font-family:
+            "JetBrains Mono",
+            monospace;
+
+        color: #dce7f5;
+
+        font-size: 0.82rem;
+
+        line-height: 1.65;
+    }
+
+    /* ROADMAP */
+
+    .roadmap {
+        display: grid;
+
+        grid-template-columns:
+            repeat(
+                auto-fit,
+                minmax(220px,1fr)
+            );
+
+        gap: 18px;
+    }
+
+    .phase {
+        padding: 25px;
+
+        border-radius:
+            var(--radius-lg);
+
+        background:
+            var(--surface);
+
+        border:
+            1px solid var(--border);
+    }
+
+    .phase span {
+        color: var(--blue);
+
+        font-size: 0.8rem;
+        font-weight: 700;
+    }
+
+    .phase h3 {
+        margin:
+            5px 0 10px;
+    }
+
+    .phase ul {
+        padding-left: 20px;
+        color: var(--muted);
+        font-size: 0.9rem;
+    }
+
+    /* HIGHLIGHT */
+
+    .highlight {
+        color: var(--green);
+        font-weight: 700;
+    }
+
+    /* FOOTER */
+
+    footer {
+        padding: 50px 0;
+
+        text-align: center;
+
+        border-top:
+            1px solid var(--border);
+
+        color: var(--muted);
+
+        font-size: 0.88rem;
+    }
+
+    footer strong {
+        color: var(--blue);
+    }
+
+    /* MOBILE */
+
+    @media(max-width: 700px) {
+
+        .nav-links {
+            display: none;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+        .hero {
+            min-height: auto;
+            padding: 80px 0;
         }
 
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: var(--bg-main);
-            color: var(--text-primary);
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
+        .hero h1 {
+            letter-spacing: -2px;
         }
 
-        /* Top Navigation Header */
-        header {
-            background-color: var(--bg-surface);
-            border-bottom: 1px solid var(--border-color);
-            padding: 0 24px;
-            height: 70px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 10;
+        section {
+            padding: 60px 0;
         }
 
-        .logo-area {
-            display: flex;
-            align-items: center;
-            gap: 12px;
+        .step {
+            grid-template-columns:
+                45px 1fr;
         }
 
-        .logo-icon {
-            background: var(--brand-gradient);
-            width: 36px;
-            height: 36px;
-            border-radius: var(--radius-sm);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            color: var(--bg-main);
-        }
+    }
+</style>
+```
 
-        .logo-text {
-            font-size: 1.25rem;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-        }
+</head>
 
-        .project-meta {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
+<body>
 
-        .badge {
-            background-color: rgba(56, 189, 248, 0.1);
-            color: var(--brand-primary);
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            border: 1px solid rgba(56, 189, 248, 0.2);
-        }
+<nav>
 
-        .btn {
-            font-family: inherit;
-            font-weight: 600;
-            font-size: 0.9rem;
-            padding: 10px 20px;
-            border-radius: var(--radius-md);
-            border: none;
-            cursor: pointer;
-            transition: var(--transition);
-        }
+<div class="container nav-inner">
 
-        .btn-primary {
-            background: var(--brand-gradient);
-            color: #FFFFFF;
-            box-shadow: 0 4px 14px rgba(56, 189, 248, 0.3);
-        }
+```
+<div class="brand">
+    AnatoX
+</div>
 
-        .btn-primary:hover {
-            opacity: 0.95;
-            transform: translateY(-1px);
-        }
+<ul class="nav-links">
 
-        /* Core Workspace Layout */
-        .workspace {
-            flex: 1;
-            display: flex;
-            position: relative;
-            overflow: hidden;
-        }
+    <li>
+        <a href="#about">
+            About
+        </a>
+    </li>
 
-        /* Left Panel: 3D Toolbar Assets */
-        .toolbar {
-            width: 280px;
-            background-color: var(--bg-surface);
-            border-right: 1px solid var(--border-color);
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
-            gap: 24px;
-        }
+    <li>
+        <a href="#features">
+            Features
+        </a>
+    </li>
 
-        .panel-title {
-            font-size: 0.95rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--text-secondary);
-            font-weight: 700;
-        }
+    <li>
+        <a href="#workflow">
+            Workflow
+        </a>
+    </li>
 
-        .tool-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-        }
+    <li>
+        <a href="#architecture">
+            Architecture
+        </a>
+    </li>
 
-        .tool-card {
-            background-color: var(--bg-main);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-            padding: 16px;
-            text-align: center;
-            cursor: pointer;
-            transition: var(--transition);
-        }
+    <li>
+        <a href="#roadmap">
+            Roadmap
+        </a>
+    </li>
 
-        .tool-card:hover {
-            border-color: var(--brand-primary);
-            background-color: var(--bg-surface-hover);
-        }
+</ul>
+```
 
-        .tool-icon {
-            font-size: 1.5rem;
-            margin-bottom: 8px;
-            display: block;
-        }
+</div>
 
-        .tool-name {
-            font-size: 0.85rem;
-            font-weight: 500;
-            color: var(--text-primary);
-        }
+</nav>
 
-        /* Center Canvas: Interactive 3D Mockup */
-        .canvas-container {
-            flex: 1;
-            background-color: var(--bg-main);
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+<header class="hero">
 
-        /* Grid Background Pattern to Mimic 3D Viewport */
-        .canvas-grid {
-            position: absolute;
-            inset: 0;
-            background-image: 
-                linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
-            background-size: 40px 40px;
-            pointer-events: none;
-        }
+<div class="container hero-content">
 
-        /* Conceptual 3D Model placeholder */
-        .mock-3d-model {
-            position: relative;
-            width: 220px;
-            height: 220px;
-            background: linear-gradient(135deg, #6366F1 0%, #4338CA 100%);
-            border-radius: var(--radius-lg);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            animation: float 4s ease-in-out infinite;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-        }
+```
+<div class="badge">
+    INTERACTIVE 3D LEARNING PLATFORM
+</div>
 
-        @keyframes float {
-            0% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-15px) rotate(5deg); }
-            100% { transform: translateY(0px) rotate(0deg); }
-        }
+<h1>
+    Learn
+    <span class="gradient-text">
+        how things work.
+    </span>
+</h1>
 
-        /* Spatial Annotation Pins */
-        .pin {
-            position: absolute;
-            background-color: var(--brand-primary);
-            color: var(--bg-main);
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 0.8rem;
-            cursor: pointer;
-            box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.3);
-        }
+<p>
+    AnatoX transforms everyday objects,
+    machines and scientific systems into
+    interactive 3D learning experiences.
+    Explore each component, understand its
+    function and learn how the complete
+    system works.
+</p>
 
-        .pin-1 { top: 20px; left: 40px; }
-        .pin-2 { bottom: 40px; right: 30px; }
+<div class="hero-buttons">
 
-        /* Camera / Canvas Controls Overlay */
-        .canvas-controls {
-            position: absolute;
-            bottom: 24px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: var(--bg-surface);
-            padding: 8px 16px;
-            border-radius: 30px;
-            display: flex;
-            gap: 16px;
-            border: 1px solid var(--border-color);
-        }
+    <a
+        class="btn btn-primary"
+        href="#features"
+    >
+        Explore AnatoX
+    </a>
 
-        .control-btn {
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: var(--transition);
-        }
+    <a
+        class="btn btn-secondary"
+        href="#roadmap"
+    >
+        View Roadmap
+    </a>
 
-        .control-btn:hover {
-            color: var(--brand-primary);
-        }
+</div>
+```
 
-        /* Right Panel: Active Component Details & Smart AI Guide Layer */
-        .inspector {
-            width: 360px;
-            background-color: var(--bg-surface);
-            border-left: 1px solid var(--border-color);
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
-        }
+</div>
 
-        .inspector-section {
-            padding: 24px;
-            border-bottom: 1px solid var(--border-color);
-        }
+</header>
 
-        .input-group {
-            margin-top: 16px;
-        }
+<main>
 
-        .input-group label {
-            display: block;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--text-secondary);
-            margin-bottom: 8px;
-            text-transform: uppercase;
-        }
+<!-- ABOUT -->
 
-        .input-field, .textarea-field {
-            width: 100%;
-            background-color: var(--bg-main);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-            padding: 12px;
-            color: var(--text-primary);
-            font-family: inherit;
-            transition: var(--transition);
-        }
+<section id="about">
 
-        .input-field:focus, .textarea-field:focus {
-            outline: none;
-            border-color: var(--brand-primary);
-        }
+<div class="container">
 
-        /* AI Guidance System UI Card */
-        .ai-guide-card {
-            background: linear-gradient(180deg, rgba(129, 140, 248, 0.08) 0%, rgba(56, 189, 248, 0.03) 100%);
-            border: 1px solid rgba(129, 140, 248, 0.2);
-            border-radius: var(--radius-lg);
-            padding: 20px;
-            margin-top: 12px;
-        }
+```
+<div class="section-heading">
 
-        .ai-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 12px;
-        }
+    <div class="section-label">
+        The Idea
+    </div>
 
-        .ai-sparkle {
-            font-size: 1.2rem;
-        }
+    <h2>
+        What is AnatoX?
+    </h2>
 
-        .ai-title {
-            font-weight: 700;
-            font-size: 0.95rem;
-            color: #A5B4FC;
-        }
+    <p>
+        AnatoX is an interactive 3D
+        education platform that helps
+        students understand the internal
+        structure and function of real-world
+        objects.
+    </p>
 
-        .ai-message {
-            font-size: 0.88rem;
-            line-height: 1.5;
-            color: var(--text-secondary);
-        }
+</div>
 
-        .ai-checklist {
+<div class="panel">
+
+    <p>
+        Instead of reading only static
+        diagrams or long paragraphs,
+        users can rotate and inspect a
+        <strong>3D model</strong>,
+        tap individual components and
+        immediately understand what each
+        part does.
+    </p>
+
+    <p>
+        The goal is to convert
+        <strong>
+            theoretical learning into
+            visual understanding.
+        </strong>
+    </p>
+
+    <p>
+        AnatoX can initially launch with
+        around
+        <strong>100 carefully selected
+        models</strong>
+        and gradually expand using
+        verified community contributions.
+    </p>
+
+</div>
+```
+
+</div>
+
+</section>
+
+<!-- FEATURES -->
+
+<section id="features">
+
+<div class="container">
+
+```
+<div class="section-heading">
+
+    <div class="section-label">
+        Core Features
+    </div>
+
+    <h2>
+        Built around interaction,
+        not memorisation.
+    </h2>
+
+</div>
+
+
+<div class="grid">
+
+
+    <div class="card">
+
+        <div class="card-icon">
+            🧊
+        </div>
+
+        <h3>
+            Interactive 3D Models
+        </h3>
+
+        <p>
+            Rotate, zoom and explore
+            real-world objects in 3D.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-icon">
+            👆
+        </div>
+
+        <h3>
+            Tap Components
+        </h3>
+
+        <p>
+            Select individual parts directly
+            from the model.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-icon">
+            ⚙️
+        </div>
+
+        <h3>
+            Understand Functions
+        </h3>
+
+        <p>
+            Learn what each part does and
+            how it affects the complete
+            system.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-icon">
+            🔗
+        </div>
+
+        <h3>
+            Component Relationships
+        </h3>
+
+        <p>
+            See how multiple parts interact
+            with one another.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-icon">
+            👥
+        </div>
+
+        <h3>
+            Community Contributions
+        </h3>
+
+        <p>
+            Users can submit missing models,
+            corrections and component
+            explanations.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-icon">
+            🤖
+        </div>
+
+        <h3>
+            AI Validation
+        </h3>
+
+        <p>
+            AI performs an initial check for
+            obvious mistakes, duplicates and
+            missing information.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-icon">
+            👨‍🏫
+        </div>
+
+        <h3>
+            Expert Verification
+        </h3>
+
+        <p>
+            Important educational submissions
+            can be reviewed by verified
+            teachers and experts.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-icon">
+            🏆
+        </div>
+
+        <h3>
+            Credit & Reputation
+        </h3>
+
+        <p>
+            Useful contributions increase
+            reputation instead of rewarding
+            meaningless upload quantity.
+        </p>
+
+    </div>
+
+
+</div>
+```
+
+</div>
+
+</section>
+
+<!-- WORKFLOW -->
+
+<section id="workflow">
+
+<div class="container">
+
+```
+<div class="section-heading">
+
+    <div class="section-label">
+        User Experience
+    </div>
+
+    <h2>
+        How AnatoX works
+    </h2>
+
+</div>
+
+
+<div class="workflow">
+
+
+    <div class="step">
+
+        <div class="step-num">
+            1
+        </div>
+
+        <div>
+
+            <h3>
+                Search an Object
+            </h3>
+
+            <p>
+                Users choose an object from
+                categories such as electronics,
+                biology, physics, mechanics or
+                everyday technology.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="step">
+
+        <div class="step-num">
+            2
+        </div>
+
+        <div>
+
+            <h3>
+                Load the 3D Model
+            </h3>
+
+            <p>
+                The model opens in an
+                interactive viewer where users
+                can rotate, zoom and inspect it.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="step">
+
+        <div class="step-num">
+            3
+        </div>
+
+        <div>
+
+            <h3>
+                Select a Component
+            </h3>
+
+            <p>
+                Users tap any highlighted part
+                of the object.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="step">
+
+        <div class="step-num">
+            4
+        </div>
+
+        <div>
+
+            <h3>
+                Learn Its Function
+            </h3>
+
+            <p>
+                AnatoX displays the component
+                name, function, working
+                principle and relationship with
+                nearby components.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="step">
+
+        <div class="step-num">
+            5
+        </div>
+
+        <div>
+
+            <h3>
+                Contribute
+            </h3>
+
+            <p>
+                Users can suggest missing
+                objects, submit models or add
+                better explanations.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="step">
+
+        <div class="step-num">
+            6
+        </div>
+
+        <div>
+
+            <h3>
+                AI Review
+            </h3>
+
+            <p>
+                AI checks for duplicates,
+                incomplete information and
+                possible technical errors.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="step">
+
+        <div class="step-num">
+            7
+        </div>
+
+        <div>
+
+            <h3>
+                Human Verification
+            </h3>
+
+            <p>
+                High-value submissions can be
+                verified by teachers,
+                professors or specialists.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="step">
+
+        <div class="step-num">
+            8
+        </div>
+
+        <div>
+
+            <h3>
+                Publish & Reward
+            </h3>
+
+            <p>
+                Approved contributions become
+                part of the AnatoX library and
+                contributors earn reputation
+                points.
+            </p>
+
+        </div>
+
+    </div>
+
+
+</div>
+```
+
+</div>
+
+</section>
+
+<!-- STORAGE -->
+
+<section id="architecture">
+
+<div class="container">
+
+```
+<div class="section-heading">
+
+    <div class="section-label">
+        Architecture
+    </div>
+
+    <h2>
+        Designed to scale.
+    </h2>
+
+    <p>
+        3D models should not be stored
+        directly inside the main database.
+    </p>
+
+</div>
+
+
+<div class="panel">
+
+    <h3>
+        Recommended Storage Design
+    </h3>
+```
+
+<pre><code>Flutter Mobile App
+        │
+        ▼
+Backend API
+        │
+        ├────────────► PostgreSQL
+        │               │
+        │               ├── Users
+        │               ├── Model metadata
+        │               ├── Components
+        │               ├── Reviews
+        │               └── Credit points
+        │
+        └────────────► Cloud Object Storage
+                        │
+                        ├── .glb models
+                        ├── thumbnails
+                        └── optional media
+</code></pre>
+
+```
+    <p style="margin-top:20px;color:var(--muted);">
+        <strong>GLB</strong>
+        stands for
+        <strong>
+            GL Transmission Format Binary.
+        </strong>
+        It packages the model, materials,
+        textures and scene information into
+        one compact file.
+    </p>
+
+</div>
+```
+
+</div>
+
+</section>
+
+<!-- TECH -->
+
+<section>
+
+<div class="container">
+
+```
+<div class="section-heading">
+
+    <div class="section-label">
+        Technology
+    </div>
+
+    <h2>
+        Recommended tech stack
+    </h2>
+
+</div>
+
+
+<div class="panel">
+
+    <div class="tags">
+
+        <span class="tag">
+            Dart
+        </span>
+
+        <span class="tag">
+            Flutter
+        </span>
+
+        <span class="tag">
+            Android
+        </span>
+
+        <span class="tag">
+            GLB / glTF
+        </span>
+
+        <span class="tag">
+            PostgreSQL
+        </span>
+
+        <span class="tag">
+            REST API
+        </span>
+
+        <span class="tag">
+            Cloud Storage
+        </span>
+
+        <span class="tag">
+            3D Rendering
+        </span>
+
+        <span class="tag">
+            Authentication
+        </span>
+
+        <span class="tag">
+            AI Validation
+        </span>
+
+    </div>
+
+</div>
+```
+
+</div>
+
+</section>
+
+<!-- QUALITY CONTROL -->
+
+<section>
+
+<div class="container">
+
+```
+<div class="section-heading">
+
+    <div class="section-label">
+        Quality Control
+    </div>
+
+    <h2>
+        Preventing spam and credit farming
+    </h2>
+
+</div>
+
+
+<div class="grid">
+
+
+    <div class="card">
+
+        <h3>
+            No Instant Rewards
+        </h3>
+
+        <p>
+            Uploading something alone should
+            not generate points.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>
+            Quality-Based Rewards
+        </h3>
+
+        <p>
+            More accurate and useful content
+            should receive more reputation.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>
+            Duplicate Detection
+        </h3>
+
+        <p>
+            Repeated or copied models should
+            be automatically flagged.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>
+            Contribution Limits
+        </h3>
+
+        <p>
+            New accounts can have reasonable
+            submission limits until trust
+            improves.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>
+            Community Reports
+        </h3>
+
+        <p>
+            Users can report incorrect,
+            misleading or poor-quality
+            submissions.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>
+            Reputation Weighting
+        </h3>
+
+        <p>
+            A trusted contributor's review can
+            carry more weight than a brand-new
+            account.
+        </p>
+
+    </div>
+
+
+</div>
+```
+
+</div>
+
+</section>
+
+<!-- MVP -->
+
+<section>
+
+<div class="container">
+
+```
+<div class="section-heading">
+
+    <div class="section-label">
+        MVP
+    </div>
+
+    <h2>
+        Start small.
+        Build the core experience first.
+    </h2>
+
+</div>
+
+
+<div class="panel">
+
+    <div class="grid">
+
+
+        <div class="card">
+
+            <h3>
+                10–20 Models
+            </h3>
+
+            <p>
+                Start with a small number of
+                excellent objects instead of
+                immediately building all 100.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                3D Viewer
+            </h3>
+
+            <p>
+                Rotate, zoom and inspect
+                optimized GLB models.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Component Selection
+            </h3>
+
+            <p>
+                Tap parts and display their
+                information.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Search & Categories
+            </h3>
+
+            <p>
+                Let users quickly find
+                available objects.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                User Accounts
+            </h3>
+
+            <p>
+                Basic profiles and saved
+                objects.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Feedback
+            </h3>
+
+            <p>
+                Let early users suggest
+                corrections and new objects.
+            </p>
+
+        </div>
+
+
+    </div>
+
+</div>
+```
+
+</div>
+
+</section>
+
+<!-- UPDATED POINTS -->
+
+<section>
+
+<div class="container">
+
+```
+<div class="section-heading">
+
+    <div class="section-label">
+        Updated Strategy
+    </div>
+
+    <h2>
+        Important decisions for AnatoX
+    </h2>
+
+</div>
+
+
+<div class="grid">
+
+
+    <div class="card">
+
+        <h3>
+            Do Not Build a Full 3D Editor First
+        </h3>
+
+        <p>
+            A Blender-style in-app editor would
+            make the first version far too
+            complex. Start with viewing and
+            interaction.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>
+            Build 10–20 Models Before 100
+        </h3>
+
+        <p>
+            Test whether students actually use
+            and enjoy the experience before
+            investing in a huge model library.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>
+            Store Models in the Cloud
+        </h3>
+
+        <p>
+            Keep GLB files in object storage
+            and store only URLs and metadata
+            in PostgreSQL.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>
+            Keep Models Lightweight
+        </h3>
+
+        <p>
+            Optimize polygons and textures so
+            models load quickly even on normal
+            Android phones.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>
+            AI Assists, Humans Verify
+        </h3>
+
+        <p>
+            AI can catch obvious issues, but
+            expert-reviewed content should be
+            used for verified educational
+            information.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>
+            Reputation Over Raw Points
+        </h3>
+
+        <p>
+            Contributor trust should depend on
+            approval rate and quality, not just
+            upload count.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>
+            Schools Can Become Contributors
+        </h3>
+
+        <p>
+            Later, teachers and colleges could
+            upload verified educational models
+            and lesson content.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>
+            Offline Caching
+        </h3>
+
+        <p>
+            Frequently viewed models can later
+            be cached on-device to reduce data
+            usage and improve loading speed.
+        </p>
+
+    </div>
+
+
+</div>
+```
+
+</div>
+
+</section>
+
+<!-- ROADMAP -->
+
+<section id="roadmap">
+
+<div class="container">
+
+```
+<div class="section-heading">
+
+    <div class="section-label">
+        Roadmap
+    </div>
+
+    <h2>
+        How AnatoX can grow
+    </h2>
+
+</div>
+
+
+<div class="roadmap">
+
+
+    <div class="phase">
+
+        <span>
+            PHASE 1
+        </span>
+
+        <h3>
+            Prototype
+        </h3>
+
+        <ul>
+            <li>
+                Learn Dart
+            </li>
+            <li>
+                Learn Flutter
+            </li>
+            <li>
+                Build simple UI
+            </li>
+            <li>
+                Load one GLB model
+            </li>
+        </ul>
+
+    </div>
+
+
+    <div class="phase">
+
+        <span>
+            PHASE 2
+        </span>
+
+        <h3>
+            MVP
+        </h3>
+
+        <ul>
+            <li>
+                10–20 models
+            </li>
+            <li>
+                Component interaction
+            </li>
+            <li>
+                Search
+            </li>
+            <li>
+                Categories
+            </li>
+            <li>
+                User accounts
+            </li>
+        </ul>
+
+    </div>
+
+
+    <div class="phase">
+
+        <span>
+            PHASE 3
+        </span>
+
+        <h3>
+            Community
+        </h3>
+
+        <ul>
+            <li>
+                Contributions
+            </li>
+            <li>
+                Reputation
+            </li>
+            <li>
+                Reports
+            </li>
+            <li>
+                Moderator system
+            </li>
+        </ul>
+
+    </div>
+
+
+    <div class="phase">
+
+        <span>
+            PHASE 4
+        </span>
+
+        <h3>
+            Smart Learning
+        </h3>
+
+        <ul>
+            <li>
+                AI explanations
+            </li>
+            <li>
+                AI contribution checks
+            </li>
+            <li>
+                Quizzes
+            </li>
+            <li>
+                Learning progress
+            </li>
+        </ul>
+
+    </div>
+
+
+    <div class="phase">
+
+        <span>
+            PHASE 5
+        </span>
+
+        <h3>
+            Expansion
+        </h3>
+
+        <ul>
+            <li>
+                100+ models
+            </li>
+            <li>
+                Expert verification
+            </li>
+            <li>
+                School partnerships
+            </li>
+            <li>
+                AR mode
+            </li>
+        </ul>
+
+    </div>
+
+
+</div>
+```
+
+</div>
+
+</section>
+
+<!-- FUTURE -->
+
+<section>
+
+<div class="container">
+
+```
+<div class="section-heading">
+
+    <div class="section-label">
+        Future Vision
+    </div>
+
+    <h2>
+        Where AnatoX could go
+    </h2>
+
+</div>
+
+
+<div class="grid">
+
+
+    <div class="card">
+
+        <div class="card-icon">
+            🥽
+        </div>
+
+        <h3>
+            Augmented Reality
+        </h3>
+
+        <p>
+            Place models inside the real world
+            and explore them using a phone
+            camera.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-icon">
+            🎓
+        </div>
+
+        <h3>
+            School Integration
+        </h3>
+
+        <p>
+            Teachers can use AnatoX as an
+            interactive learning resource.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-icon">
+            🧠
+        </div>
+
+        <h3>
+            AI Tutor
+        </h3>
+
+        <p>
+            Ask questions directly while
+            exploring an object.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-icon">
+            🌍
+        </div>
+
+        <h3>
+            Multiple Languages
+        </h3>
+
+        <p>
+            Make technical education accessible
+            to students across different
+            languages.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-icon">
+            📜
+        </div>
+
+        <h3>
+            Verified Portfolio
+        </h3>
+
+        <p>
+            Students could eventually showcase
+            verified technical projects and
+            contributions.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-icon">
+            🔬
+        </div>
+
+        <h3>
+            Thousands of Objects
+        </h3>
+
+        <p>
+            Expand beyond everyday objects into
+            science, engineering, biology and
+            industrial systems.
+        </p>
+
+    </div>
+
+
+</div>
+```
+
+</div>
+
+</section>
+
+</main>
+
+<footer>
+
+<div class="container">
+
+```
+<strong>
+    AnatoX
+</strong>
+
+<br>
+
+Learn how things work by exploring them.
+
+<br><br>
+
+Built as an interactive 3D learning concept.
+```
+
+</div>
+
+</footer>
+
+</body>
+</html>
