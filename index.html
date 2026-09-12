@@ -1,1321 +1,346 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>AnatoX | 3D Learning & Skill Verification</title>
-
+    <title>AnatoX - In-App 3D Workspace</title>
+    <!-- Google Fonts for Modern Typography -->
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
+        /* Modern CSS Variables & Reset */
+        :root {
+            --bg-main: #0B0F19;
+            --bg-surface: #131B2E;
+            --bg-surface-hover: #1E2942;
+            --text-primary: #F8FAFC;
+            --text-secondary: #94A3B8;
+            --brand-primary: #38BDF8;
+            --brand-gradient: linear-gradient(135deg, #38BDF8 0%, #818CF8 100%);
+            --accent-success: #34D399;
+            --accent-warning: #F59E0B;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --radius-lg: 16px;
+            --radius-md: 12px;
+            --radius-sm: 8px;
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
         * {
             box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
-
-            color: #eaf6ff;
-
-            background:
-                radial-gradient(
-                    circle at 10% 10%,
-                    #172554 0,
-                    transparent 35%
-                ),
-
-                radial-gradient(
-                    circle at 90% 20%,
-                    #312e81 0,
-                    transparent 35%
-                ),
-
-                #050816;
-
-            line-height: 1.6;
-        }
-
-        header {
-
-            text-align: center;
-
-            padding: 100px 20px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #071a3d,
-                    #111052,
-                    #24105c
-                );
-
-            border-bottom: 1px solid #243b68;
-
-            position: relative;
-
-            overflow: hidden;
-        }
-
-
-        header::before {
-
-            content: "";
-
-            position: absolute;
-
-            width: 250px;
-            height: 250px;
-
-            border-radius: 50%;
-
-            background: #22d3ee;
-
-            filter: blur(120px);
-
-            opacity: 0.15;
-
-            top: -100px;
-            left: 10%;
-        }
-
-
-        header::after {
-
-            content: "";
-
-            position: absolute;
-
-            width: 250px;
-            height: 250px;
-
-            border-radius: 50%;
-
-            background: #a855f7;
-
-            filter: blur(120px);
-
-            opacity: 0.15;
-
-            bottom: -100px;
-            right: 10%;
-        }
-
-
-        header h1 {
-
-            position: relative;
-
-            font-size: 72px;
-
-            margin: 0;
-
-            letter-spacing: 5px;
-
-            background:
-                linear-gradient(
-                    90deg,
-                    #67e8f9,
-                    #818cf8,
-                    #c084fc
-                );
-
-            -webkit-background-clip: text;
-
-            color: transparent;
-
-            text-shadow:
-                0 0 30px rgba(103, 232, 249, 0.15);
-        }
-
-
-        header p {
-
-            position: relative;
-
-            font-size: 21px;
-
-            color: #b9c9e8;
-
-            margin-top: 10px;
-        }
-
-
-        .tagline {
-
-            position: relative;
-
-            display: inline-block;
-
-            margin-top: 25px;
-
-            padding: 13px 28px;
-
-            border: 1px solid #4f46e5;
-
-            border-radius: 30px;
-
-            color: #67e8f9;
-
-            background:
-                rgba(79, 70, 229, 0.12);
-
-            box-shadow:
-                0 0 25px rgba(34, 211, 238, 0.15);
-
-            font-size: 20px;
-
-            font-weight: bold;
-        }
-
-        section {
-
-            max-width: 1100px;
-
-            margin: auto;
-
-            padding: 65px 25px;
-        }
-
-
-        h2 {
-
-            font-size: 32px;
-
-            margin-top: 55px;
-
-            margin-bottom: 20px;
-
-            color: #67e8f9;
-        }
-
-
-        h2::before {
-
-            content: "◆";
-
-            color: #8b5cf6;
-
-            margin-right: 10px;
-
-            font-size: 18px;
-        }
-
-
-      .carrd {
-
-            padding: 28px;
-
-            background:
-                rgba(15, 23, 42, 0.75);
-
-            border: 1px solid #263b64;
-
-            border-radius: 18px;
-
-            box-shadow:
-                0 15px 40px rgba(0, 0, 0, 0.35),
-
-                inset 0 1px
-                rgba(255, 255, 255, 0.04);
-
-            transition: 0.3s;
-        }
-
-
-        .card:hover {
-
-            transform: translateY(-4px);
-
-            border-color: #38bdf8;
-
-            box-shadow:
-                0 15px 45px
-                rgba(34, 211, 238, 0.12);
-        }
-
-
-        .card strong {
-
-            color: #67e8f9;
-        }
-
-
-        .flow {
-
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            height: 100vh;
             display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
 
-            justify-content: center;
-
+        /* Top Navigation Header */
+        header {
+            background-color: var(--bg-surface);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0 24px;
+            height: 70px;
+            display: flex;
+            justify-content: space-between;
             align-items: center;
+            z-index: 10;
+        }
 
-            flex-wrap: wrap;
-
+        .logo-area {
+            display: flex;
+            align-items: center;
             gap: 12px;
-
-            margin-top: 30px;
         }
 
-
-        .flow div {
-
-            padding: 14px 20px;
-
-            border-radius: 12px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #172554,
-                    #312e81
-                );
-
-            border: 1px solid #475569;
-
-            color: #e0f2fe;
-
-            font-weight: bold;
-
-            transition: 0.3s;
-        }
-
-
-        .flow div:hover {
-
-            border-color: #22d3ee;
-
-            box-shadow:
-                0 0 20px
-                rgba(34, 211, 238, 0.25);
-
-            transform: translateY(-3px);
-        }
-
-
-        .score-box {
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(4, 1fr);
-
-            gap: 15px;
-
-            margin-top: 25px;
-        }
-
-
-        .score {
-
-            text-align: center;
-
-            padding: 20px;
-
-            border-radius: 15px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #111c3d,
-                    #21134f
-                );
-
-            border: 1px solid #334b7a;
-        }
-
-
-        .score h3 {
-
-            margin: 0;
-
-            font-size: 28px;
-
-            color: #67e8f9;
-        }
-
-
-        .score p {
-
-            margin-bottom: 0;
-
-            color: #94a3b8;
-        }
-
-
-        .table-container {
-
-            margin-top: 30px;
-
-            padding: 5px;
-
-            border-radius: 20px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #22d3ee,
-                    #6366f1,
-                    #a855f7
-                );
-
-            box-shadow:
-                0 0 35px
-                rgba(99, 102, 241, 0.18);
-        }
-
-
-        table {
-
-            width: 100%;
-
-            border-collapse: separate;
-
-            border-spacing: 0;
-
-            background: #080d1c;
-
-            border-radius: 16px;
-
-            overflow: hidden;
-        }
-
-
-        th {
-
-            padding: 20px;
-
-            text-align: left;
-
-            font-size: 17px;
-
-            color: white;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #172554,
-                    #312e81
-                );
-
-            border-bottom:
-                2px solid #38bdf8;
-        }
-
-
-        th:first-child {
-
-            width: 40%;
-        }
-
-
-        td {
-
-            padding: 20px;
-
-            border-bottom:
-                1px solid #26324d;
-
-            border-right:
-                1px solid #1c2944;
-
-            color: #cbd5e1;
-
-            transition: 0.25s;
-        }
-
-
-        tr:last-child td {
-
-            border-bottom: none;
-        }
-
-
-        tr:hover td {
-
-            background:
-                rgba(34, 211, 238, 0.055);
-
-            color: #f1f5f9;
-        }
-
-        .problem {
-
-            display: inline-flex;
-
-            align-items: center;
-
-            justify-content: center;
-
+        .logo-icon {
+            background: var(--brand-gradient);
             width: 36px;
-
             height: 36px;
-
-            margin-right: 12px;
-
-            border-radius: 50%;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #4f46e5,
-                    #9333ea
-                );
-
-            color: white;
-
-            font-weight: bold;
-
-            box-shadow:
-                0 0 15px
-                rgba(139, 92, 246, 0.35);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--bg-main);
         }
 
-
-    
-
-        .solution {
-
-            color: #a5f3fc;
-
-            font-weight: bold;
+        .logo-text {
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
         }
 
-
-        .solution::before {
-
-            content: "✓ ";
-
-            color: #22d3ee;
-
-            font-size: 20px;
+        .project-meta {
+            display: flex;
+            align-items: center;
+            gap: 16px;
         }
 
-
-
-        li {
-
-            margin: 10px 0;
-
-            color: #cbd5e1;
+        .badge {
+            background-color: rgba(56, 189, 248, 0.1);
+            color: var(--brand-primary);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 1px solid rgba(56, 189, 248, 0.2);
         }
 
-
-        li::marker {
-
-            color: #22d3ee;
+        .btn {
+            font-family: inherit;
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 10px 20px;
+            border-radius: var(--radius-md);
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
         }
 
-
-        .portfolio-grid {
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(3, 1fr);
-
-            gap: 20px;
-
-            margin-top: 25px;
+        .btn-primary {
+            background: var(--brand-gradient);
+            color: #FFFFFF;
+            box-shadow: 0 4px 14px rgba(56, 189, 248, 0.3);
         }
 
-
-        .portfolio-card {
-
-            padding: 25px;
-
-            text-align: center;
-
-            border-radius: 18px;
-
-            background:
-                linear-gradient(
-                    145deg,
-                    #0f172a,
-                    #15113a
-                );
-
-            border: 1px solid #283d68;
-
-            transition: 0.3s;
+        .btn-primary:hover {
+            opacity: 0.95;
+            transform: translateY(-1px);
         }
 
-
-        .portfolio-card:hover {
-
-            transform: translateY(-6px);
-
-            border-color: #8b5cf6;
-
-            box-shadow:
-                0 10px 35px
-                rgba(139, 92, 246, 0.15);
-        }
-
-
-        .portfolio-icon {
-
-            font-size: 40px;
-
-            margin-bottom: 10px;
-        }
-
-
-        .portfolio-card h3 {
-
-            color: #67e8f9;
-        }
-
-
-        .certificate {
-
+        /* Core Workspace Layout */
+        .workspace {
+            flex: 1;
+            display: flex;
             position: relative;
-
-            padding: 45px 30px;
-
-            margin-top: 30px;
-
-            text-align: center;
-
-            border-radius: 22px;
-
-            background:
-                radial-gradient(
-                    circle at top,
-                    #312e81,
-                    #111827 65%
-                );
-
-            border: 1px solid #6366f1;
-
-            box-shadow:
-                0 0 45px
-                rgba(99, 102, 241, 0.2);
-
             overflow: hidden;
         }
 
-
-        .certificate::before {
-
-            content: "✦";
-
-            position: absolute;
-
-            top: 20px;
-
-            left: 30px;
-
-            font-size: 25px;
-
-            color: #fde68a;
+        /* Left Panel: 3D Toolbar Assets */
+        .toolbar {
+            width: 280px;
+            background-color: var(--bg-surface);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            gap: 24px;
         }
 
-
-        .certificate::after {
-
-            content: "✦";
-
-            position: absolute;
-
-            bottom: 20px;
-
-            right: 30px;
-
-            font-size: 25px;
-
-            color: #fde68a;
+        .panel-title {
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            font-weight: 700;
         }
 
-
-        .certificate h3 {
-
-            font-size: 30px;
-
-            color: #fde68a;
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
         }
 
-
-        .certificate p {
-
-            color: #dbeafe;
-        }
-
-        .final-message {
-
-            margin-top: 60px;
-
-            padding: 45px 25px;
-
+        .tool-card {
+            background-color: var(--bg-main);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 16px;
             text-align: center;
-
-            border-radius: 20px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    rgba(8, 145, 178, 0.12),
-                    rgba(124, 58, 237, 0.12)
-                );
-
-            border: 1px solid #334b7a;
+            cursor: pointer;
+            transition: var(--transition);
         }
 
-
-        .final-message h2 {
-
-            margin-top: 0;
+        .tool-card:hover {
+            border-color: var(--brand-primary);
+            background-color: var(--bg-surface-hover);
         }
 
-
-        .final-message p {
-
-            max-width: 750px;
-
-            margin: auto;
-
-            font-size: 19px;
-
-            color: #cbd5e1;
+        .tool-icon {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+            display: block;
         }
 
-
-
-        footer {
-
-            text-align: center;
-
-            padding: 35px;
-
-            background: #030712;
-
-            border-top: 1px solid #1e293b;
-
-            color: #64748b;
+        .tool-name {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-primary);
         }
 
-
-        footer strong {
-
-            color: #67e8f9;
+        /* Center Canvas: Interactive 3D Mockup */
+        .canvas-container {
+            flex: 1;
+            background-color: var(--bg-main);
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        @media (max-width: 800px) {
-
-            header h1 {
-
-                font-size: 52px;
-            }
-
-
-            header p {
-
-                font-size: 17px;
-            }
-
-
-            section {
-
-                padding: 40px 15px;
-            }
-
-
-            .score-box {
-
-                grid-template-columns:
-                    repeat(2, 1fr);
-            }
-
-
-            .portfolio-grid {
-
-                grid-template-columns: 1fr;
-            }
-
-
-            .flow {
-
-                flex-direction: column;
-            }
-
-
-            .flow div {
-
-                width: 100%;
-
-                text-align: center;
-            }
-
-
-            table {
-
-                font-size: 14px;
-            }
-
-
-            th,
-            td {
-
-                padding: 14px 10px;
-            }
-
+        /* Grid Background Pattern to Mimic 3D Viewport */
+        .canvas-grid {
+            position: absolute;
+            inset: 0;
+            background-image: 
+                linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
         }
 
-
-        @media (max-width: 500px) {
-
-            header h1 {
-
-                font-size: 45px;
-            }
-
-
-            .tagline {
-
-                font-size: 16px;
-            }
-
-
-            .score-box {
-
-                grid-template-columns: 1fr;
-            }
-
-
-            table {
-
-                display: block;
-
-                overflow-x: auto;
-            }
-
+        /* Conceptual 3D Model placeholder */
+        .mock-3d-model {
+            position: relative;
+            width: 220px;
+            height: 220px;
+            background: linear-gradient(135deg, #6366F1 0%, #4338CA 100%);
+            border-radius: var(--radius-lg);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            animation: float 4s ease-in-out infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
         }
 
-    </style>
-
-</head>
-
-
-<body>
-
-
-    <!-- =========================
-         HERO
-    ========================== -->
-
-    <header>
-
-        <h1>AnatoX</h1>
-
-        <p>
-            Interactive 3D Learning & Skill Verification Platform
-        </p>
-
-        <div class="tagline">
-
-            Create in 3D. Learn by Doing. Prove Your Skills.
-
-        </div>
-
-    </header>
-
-
-    <section>
-
-
-    
-
-        <h2>What is AnatoX?</h2>
-
-        <div class="card">
-
-            <p>
-
-                <strong>AnatoX</strong> is a platform where students
-                create interactive 3D models of real-world objects
-                and learn how their different parts work together.
-
-            </p>
-
-            <p>
-
-                Students can rotate, zoom, explore components,
-                understand their functions and explain how the
-                complete object works.
-
-            </p>
-
-        </div>
-
-
-        <h2>Main Motive</h2>
-
-        <div class="card">
-
-            <p>
-
-                The main motive of AnatoX is to turn
-                <strong>practical learning into verified skills.</strong>
-
-            </p>
-
-            <p>
-
-                Instead of only memorizing theory, students
-                create something practical, explain what they
-                have learned and prove their understanding.
-
-            </p>
-
-        </div>
-
-
-        <h2>How AnatoX Works</h2>
-
-        <div class="flow">
-
-            <div>Choose Object</div>
-
-            <div>→</div>
-
-            <div>Create 3D Model</div>
-
-            <div>→</div>
-
-            <div>Submit</div>
-
-            <div>→</div>
-
-            <div>AI Verification</div>
-
-            <div>→</div>
-
-            <div>Get Score</div>
-
-            <div>→</div>
-
-            <div>Earn Certificate</div>
-
-        </div>
-
-
-        <h2>AI Evaluation</h2>
-
-        <div class="card">
-
-            <p>
-
-                AnatoX uses built-in AI to analyse the student's
-                project and evaluate their understanding.
-
-            </p>
-
-
-            <ul>
-
-                <li>
-                    Model accuracy
-                </li>
-
-                <li>
-                    Important components
-                </li>
-
-                <li>
-                    Component explanations
-                </li>
-
-                <li>
-                    Understanding of how the object works
-                </li>
-
-                <li>
-                    Project presentation
-                </li>
-
-            </ul>
-
-
-            <p>
-
-                Correct understanding increases the score,
-                while mistakes reduce the relevant score.
-                Students can improve their work and resubmit.
-
-            </p>
-
-
-
-            <div class="score-box">
-
-                <div class="score">
-
-                    <h3>92%</h3>
-
-                    <p>Accuracy</p>
-
-                </div>
-
-
-                <div class="score">
-
-                    <h3>88%</h3>
-
-                    <p>Understanding</p>
-
-                </div>
-
-
-                <div class="score">
-
-                    <h3>95%</h3>
-
-                    <p>Explanation</p>
-
-                </div>
-
-
-                <div class="score">
-
-                    <h3>A</h3>
-
-                    <p>Overall Grade</p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <h2>Challenges & Solutions</h2>
-
-
-        <div class="table-container">
-
-            <table>
-
-                <thead>
-
-                    <tr>
-
-                        <th>
-                            Potential Challenge
-                        </th>
-
-                        <th>
-                            AnatoX Solution
-                        </th>
-
-                    </tr>
-
-                </thead>
-
-
-                <tbody>
-
-
-                    <tr>
-
-                        <td>
-
-                            <span class="problem">
-                                01
-                            </span>
-
-                            Students may copy models
-                            from the internet.
-
-                        </td>
-
-
-                        <td class="solution">
-
-                            Use originality checks and ask
-                            students questions about their
-                            own projects.
-
-                        </td>
-
-                    </tr>
-
-
-                    <tr>
-
-                        <td>
-
-                            <span class="problem">
-                                02
-                            </span>
-
-                            AI may incorrectly evaluate
-                            a project.
-
-                        </td>
-
-
-                        <td class="solution">
-
-                            Use structured grading rules
-                            and human review for uncertain
-                            cases.
-
-                        </td>
-
-                    </tr>
-
-
-                    <tr>
-
-                        <td>
-
-                            <span class="problem">
-                                03
-                            </span>
-
-                            Large 3D models require
-                            significant storage.
-
-                        </td>
-
-
-                        <td class="solution">
-
-                            Convert models into optimized
-                            GLB files and use scalable
-                            cloud storage.
-
-                        </td>
-
-                    </tr>
-
-
-                    <tr>
-
-                        <td>
-
-                            <span class="problem">
-                                04
-                            </span>
-
-                            Large models may run slowly
-                            on weak devices.
-
-                        </td>
-
-
-                        <td class="solution">
-
-                            Automatically create low,
-                            medium and high-quality versions.
-
-                        </td>
-
-                    </tr>
-
-
-                    <tr>
-
-                        <td>
-
-                            <span class="problem">
-                                05
-                            </span>
-
-                            An easy certificate may lose
-                            its value.
-
-                        </td>
-
-
-                        <td class="solution">
-
-                            Require multiple verified
-                            projects and minimum performance
-                            standards.
-
-                        </td>
-
-                    </tr>
-
-
-                    <tr>
-
-                        <td>
-
-                            <span class="problem">
-                                06
-                            </span>
-
-                            Students may worry about
-                            ownership of their models.
-
-                        </td>
-
-
-                        <td class="solution">
-
-                            Students remain the owners of
-                            their work. AnatoX only stores,
-                            verifies and displays it with
-                            permission.
-
-                        </td>
-
-                    </tr>
-
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-
-
-        <h2>Interactive Portfolio</h2>
-
-
-        <div class="card">
-
-            <p>
-
-                Every verified project can become part of
-                the student's interactive portfolio.
-
-            </p>
-
-        </div>
-
-
-        <div class="portfolio-grid">
-
-
-            <div class="portfolio-card">
-
-                <div class="portfolio-icon">
-                    🔄
-                </div>
-
-                <h3>Rotate</h3>
-
-                <p>
-                    Explore the model from every angle.
-                </p>
-
-            </div>
-
-
-            <div class="portfolio-card">
-
-                <div class="portfolio-icon">
-                    🔍
-                </div>
-
-                <h3>Zoom</h3>
-
-                <p>
-                    Inspect small components in detail.
-                </p>
-
-            </div>
-
-
-            <div class="portfolio-card">
-
-                <div class="portfolio-icon">
-                    🧩
-                </div>
-
-                <h3>Explore</h3>
-
-                <p>
-                    Select individual components and
-                    understand their functions.
-                </p>
-
-            </div>
-
-
-        </div>
-
-
-        <!-- CERTIFICATE -->
-
-        <h2>AnatoX Excellence Certificate</h2>
-
-
-        <div class="certificate">
-
-            <h3>
-                🏆 Verified Excellence Certificate
-            </h3>
-
-
-            <p>
-
-                Students who successfully complete
-                <strong>10 verified projects</strong>
-                can earn an AnatoX Excellence Certificate.
-
-            </p>
-
-
-            <p>
-
-                The certificate can include the student's
-                overall grade, performance score and a
-                unique verification ID.
-
-            </p>
-
-
-            <p>
-
-                Students can showcase the certificate and
-                their interactive portfolio during
-                interviews, internships and future
-                opportunities.
-
-            </p>
-
-        </div>
-
-        <div class="final-message">
-
-            <h2>
-                The Vision of AnatoX
-            </h2>
-
-
-            <p>
-
-                AnatoX aims to make learning more practical
-                by giving students a place to create,
-                experiment, understand and demonstrate
-                what they know through interactive 3D work.
-
-            </p>
-
-        </div>
-
-
-    </section>
-
-    <footer>
-
-        <strong>AnatoX</strong>
-
-        — Create in 3D. Learn by Doing. Prove Your Skills.
-
-    </footer>
-
-
-</body>
-
-</html>
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(5deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+
+        /* Spatial Annotation Pins */
+        .pin {
+            position: absolute;
+            background-color: var(--brand-primary);
+            color: var(--bg-main);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.8rem;
+            cursor: pointer;
+            box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.3);
+        }
+
+        .pin-1 { top: 20px; left: 40px; }
+        .pin-2 { bottom: 40px; right: 30px; }
+
+        /* Camera / Canvas Controls Overlay */
+        .canvas-controls {
+            position: absolute;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--bg-surface);
+            padding: 8px 16px;
+            border-radius: 30px;
+            display: flex;
+            gap: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .control-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .control-btn:hover {
+            color: var(--brand-primary);
+        }
+
+        /* Right Panel: Active Component Details & Smart AI Guide Layer */
+        .inspector {
+            width: 360px;
+            background-color: var(--bg-surface);
+            border-left: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .inspector-section {
+            padding: 24px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .input-group {
+            margin-top: 16px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .input-field, .textarea-field {
+            width: 100%;
+            background-color: var(--bg-main);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 12px;
+            color: var(--text-primary);
+            font-family: inherit;
+            transition: var(--transition);
+        }
+
+        .input-field:focus, .textarea-field:focus {
+            outline: none;
+            border-color: var(--brand-primary);
+        }
+
+        /* AI Guidance System UI Card */
+        .ai-guide-card {
+            background: linear-gradient(180deg, rgba(129, 140, 248, 0.08) 0%, rgba(56, 189, 248, 0.03) 100%);
+            border: 1px solid rgba(129, 140, 248, 0.2);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            margin-top: 12px;
+        }
+
+        .ai-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .ai-sparkle {
+            font-size: 1.2rem;
+        }
+
+        .ai-title {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: #A5B4FC;
+        }
+
+        .ai-message {
+            font-size: 0.88rem;
+            line-height: 1.5;
+            color: var(--text-secondary);
+        }
+
+        .ai-checklist {
